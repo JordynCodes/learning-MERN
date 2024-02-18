@@ -1,20 +1,19 @@
 const express = require('express');
-const path = require('path'); 
 
 const app = express();
+app.set('view engine', 'ejs');
+app.engine('ejs', require('ejs').__express);
+app.set('views', 'frontend');
 app.listen(4000);
 
-const dir = path.join(__dirname, "../");
-
-app.get('/', (req, res) =>{
-    res.sendFile('./frontend/home.html', { root : dir });
+app.get('/', (req, res) => {
+    res.render('index');
 });
 
-app.get('/about', (req, res) =>{
-    res.sendFile('./frontend/about.html', { root : dir });
+app.get('/about', (req, res) => {
+    res.render('about');
 });
 
 app.use((req, res) => {
-    res.status(404).sendFile('./frontend/404.html', { root : dir });
-
+    res.status(404).render('404');
 });
