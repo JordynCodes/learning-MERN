@@ -6,6 +6,8 @@ app.engine('ejs', require('ejs').__express);
 app.set('views', 'frontend');
 app.listen(4000);
 
+app.use('/frontend', express.static('frontend'));
+
 app.get('/', (req, res) => {
     const blogs = [
         {title: 'Blog number 1', snippet: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.'},
