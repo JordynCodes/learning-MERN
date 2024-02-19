@@ -1,15 +1,21 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning Mern</title>
-</head>
+<html lang="en"> 
+    <%- include('./partials/header.ejs') %>
 <body>
+
     <h1>Home</h1>
-    <nav>
-        <a href="/">Homepage</a>
-        <a href="/about">About page</a>
-        <a href="/blogs/create">New Blog</a>
-    </nav>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class = "blogs content">
+        <h2>All Blogs</h2>
+        <% if (blogs.length > 0) { %>
+            <% blogs.forEach(blog => { %>
+                <h3 class = "blog title"><%= blog.title %></h3>
+                <p class = "blog snippet"><%= blog.snippet %></p>
+            <% }) %>
+        <% } else { %>
+            <p>There are no blogs.</p>
+        <% } %>
+    </div>
+
 </body>
 </html>
