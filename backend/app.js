@@ -3,7 +3,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dbURI = require('./URI.js');
-const blogRoutes = require('./../routes/blogRoutes.js');
+const blogRoutes = require('./routes/blogRoutes.js');
 
 const app = express();
 
@@ -17,7 +17,7 @@ mongoose.connect(dbURI.dbURI)
 
 // middleware
 
-app.use('/public', express.static('public'));
+app.use('/frontend/public', express.static('frontend/public'));
 app.use(express.urlencoded({ extended: true }));
 
 // routes

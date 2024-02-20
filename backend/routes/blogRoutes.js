@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Blog = require('./../backend/models/blog.js');
+const Blog = require('../models/blog.js');
 
 // blog-related request handlers/routes
 
