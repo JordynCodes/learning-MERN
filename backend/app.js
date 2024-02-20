@@ -26,23 +26,39 @@ app.get('/add-blog', (req, res) => {
         .catch((err) => console.log(err));
 });
 
+app.get('/all-blogs', (req, res) => {
+    Blog.find()
+        .then((result) => res.send(result))
+        .catch((err) => console.log(err));
+});
+
+// app.get('/single-blog', (req, res) => {
+//     Blog.findById('65d3d2edfd866c03e93e2d8b')
+//         .then((result) => res.send(result))
+//         .catch((err) => console.log(err));
+// });
+
+
 app.get('/', (req, res) => {
-    const blogs = [
-        {title: 'Blog number 1', snippet: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.'},
-        {title: 'Blog number 2', snippet: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.'},
-        {title: 'Blog number 3', snippet: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.'},
-    ];
-    res.render('index', {title: 'Home', blogs});
+    res.render('index', {title: 'Home'});
+});
+
+app.get('/blogs', (req, res) => {
+    Blog.find().sort({ createdAt: -1 })
+        .then((result) => {
+            res.render('blogs', {title: 'All Blogs', blogs: result})
+        })
+        .catch((err) => console.log(err));
 });
 
 app.get('/about', (req, res) => {
-    res.render('about', {title: 'About'}, );
+    res.render('about', {title: 'About'});
 });
 
 app.get('/blogs/create', (req, res) => {
-    res.render('create', {title: 'New Blog'}, );
+    res.render('create', {title: 'New Blog'});
 });
 
 app.use((req, res) => {
-    res.status(404).render('404', {title: '404'}, );
+    res.status(404).render('404', {title: '404'});
 });

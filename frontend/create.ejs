@@ -3,6 +3,28 @@
 <body>
     <h1>New Blog</h1>
     <%- include('./partials/nav.ejs') %>
+
+    <form action = "/blogs" method="POST">
+
+        <h3 class = "title entry">Blog title:</h3>
+        <input type="text" id="title">
+
+        <br><br>
+
+        <h3 class = "snippet entry">Blog snippet:</h3>
+        <input type = "text" id="snippet">
+
+        <br><br>
+
+        <h3 class = "body entry">Blog body:</h3>
+        <textarea name = "body" id="textarea" cols="30" rows="5"></textarea>
+        
+        <br><br>
+
+        <input type = "submit" value="Submit">
+
+    </form>
+
     <%- include('./partials/footer.ejs') %>
 </body>
 
