@@ -1,43 +1,31 @@
+// setting up app and db connection
+
 const express = require('express');
 const mongoose = require('mongoose');
 const Blog = require('./models/blog.js');
+const dbURI = require('./URI.js');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 app.engine('ejs', require('ejs').__express);
 app.set('views', 'frontend');
-const dbURI = 'mongodb+srv://codingwithjordyn:4qk2LnPqnug5u9OG@learning-mern.aqkcpuk.mongodb.net/learning-mern?retryWrites=true&w=majority'
-mongoose.connect(dbURI)
+mongoose.connect(dbURI.dbURI)
     .then((result) => app.listen(4000))
     .catch((err) => console.log(err));
 
+// middleware
+
 app.use('/public', express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/add-blog', (req, res) => {
-    const blog = new Blog({
-        title: 'new blog',
-        snippet: 'about new blog',
-        body: 'more about new blog'
-    })
-
-    blog.save()
-        .then((result) => res.send(result))
-        .catch((err) => console.log(err));
-});
+// req handlers
 
 app.get('/all-blogs', (req, res) => {
     Blog.find()
         .then((result) => res.send(result))
         .catch((err) => console.log(err));
 });
-
-// app.get('/single-blog', (req, res) => {
-//     Blog.findById('65d3d2edfd866c03e93e2d8b')
-//         .then((result) => res.send(result))
-//         .catch((err) => console.log(err));
-// });
-
 
 app.get('/', (req, res) => {
     res.render('index', {title: 'Home'});
@@ -58,6 +46,22 @@ app.get('/about', (req, res) => {
 app.get('/blogs/create', (req, res) => {
     res.render('create', {title: 'New Blog'});
 });
+
+app.post('/blogs', (req, res) => {
+    const blog = new Blog(req.body);
+    blog.save()
+        .then((result) => res.redirect('/blogs'))
+        .catch((err) => console.log(err));
+})
+
+app.get('/blogs/:id', (req, res) => {
+    const id = req.params.id;
+    Blog.findById(id)
+    .then((result) => {
+        res.render('singleBlog', {title: result.title, blog: result})
+    })
+    .catch((err) => console.log(err));
+})
 
 app.use((req, res) => {
     res.status(404).render('404', {title: '404'});
