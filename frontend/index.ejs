@@ -5,16 +5,19 @@
     <%- include('./partials/nav.ejs') %>
 
     <div class = "blogs content">
-        <h2>All Blogs</h2>
         <% if (blogs.length > 0) { %>
             <% blogs.forEach(blog => { %>
                 <a class = "single" href="/blogs/<%= blog._id %>">
                     <h3 class = "blog-title"><%= blog.title %></h3>
-                    <p class = "blog-snippet"><%= blog.snippet %></p>
+                    <% if (blog.body.length > 100) {%>
+                        <p class = "blog-snippet"><%= blog.body.slice(0, 100) %>...</p>
+                    <% } else {%>
+                        <p class = "blog-snippet"><%= blog.body.slice(0, blog.body.length) %></p>
+                    <% } %>
                 </a>
             <% }) %>
         <% } else { %>
-            <p>There are no blogs.</p>
+            <h2 class = "noBlogs">There are no blogs. Click 'New Blog' to create one!</h2>
         <% } %>
     </div>
 
