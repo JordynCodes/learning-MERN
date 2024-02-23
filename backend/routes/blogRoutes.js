@@ -4,16 +4,10 @@ const Blog = require('../models/blog.js');
 
 // blog-related request handlers/routes
 
-router.get('/all-blogs', (req, res) => {
-    Blog.find()
-        .then((result) => res.send(result))
-        .catch((err) => console.log(err));
-});
-
-router.get('/blogs', (req, res) => {
+router.get('/', (req, res) => {
     Blog.find().sort({ createdAt: -1 })
         .then((result) => {
-            res.render('blogs', {title: 'All Blogs', blogs: result})
+            res.render('Index', {title: 'Home', blogs: result})
         })
         .catch((err) => console.log(err));
 });
@@ -25,7 +19,7 @@ router.get('/blogs/create', (req, res) => {
 router.post('/blogs', (req, res) => {
     const blog = new Blog(req.body);
     blog.save()
-        .then((result) => res.redirect('/blogs'))
+        .then((result) => res.redirect('/'))
         .catch((err) => console.log(err));
 });
 
@@ -42,7 +36,7 @@ router.delete('/blogs/:id', (req, res) => {
     const id = req.params.id;
     Blog.findByIdAndDelete(id)
     .then((result) => {
-        res.json({ redirect: '/blogs' })
+        res.json({ redirect: '/' })
     })
     .catch((err) => console.log(err));
 });
